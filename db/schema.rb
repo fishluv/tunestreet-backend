@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_28_065249) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_30_070457) do
   create_table "ratings", force: :cascade do |t|
     t.integer "type", null: false
     t.integer "entity_type", null: false
@@ -18,6 +18,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_28_065249) do
     t.decimal "value", precision: 3, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", null: false
+    t.string "username"
+    t.string "login_token"
+    t.datetime "login_token_valid_until"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
 end

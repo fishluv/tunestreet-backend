@@ -1,4 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "info@tunestreet.org"
+  # TODO: Set up real email at this address. (Currently it shows my gmail.)
+  default from: "TuneStreet <info@tunestreet.org>"
   layout "mailer"
 end

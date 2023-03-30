@@ -1,10 +1,17 @@
 Rails.application.routes.draw do
   defaults format: :json do
-    resources :tests
+    post "login/requests", to: "logins#request_login"
+    # Has to be GET because this is the login url we email to users.
+    get "login/sessions", to: "logins#create_session"
+    delete "login/sessions", to: "logins#delete_session"
 
-    # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+    get "users/me", to: "users#show"
+    patch "users/me", to: "users#update"
+
     get "/rating", to: "ratings#show"
     put "/rating", to: "ratings#upsert"
     delete "/rating", to: "ratings#destroy"
+
+    resources :tests
   end
 end
