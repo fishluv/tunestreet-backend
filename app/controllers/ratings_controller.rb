@@ -1,43 +1,46 @@
 # CRUD operations for a single rating belonging to the current user.
 class RatingsController < ApplicationController
-  # GET /rating
+  # GET /ratings
   def show
-    type = params.require(:type)
     entity_type = params.require(:entity_type)
     entity_id = params.require(:entity_id)
 
-    rating = Rating.find_by!(type: type, entity_type: entity_type, entity_id: entity_id)
+    quality_rating = Rating.find_by(entity_type: entity_type, entity_id: entity_id, type: :quality)
 
-    render json: { rating: rating }
+    render json: {
+      ratings: {
+        quality: quality_rating,
+      },
+    }
   end
 
-  # PUT /rating
+  # PUT /ratings
   def upsert
-    type = params.require(:type)
     entity_type = params.require(:entity_type)
     entity_id = params.require(:entity_id)
+    type = params.require(:type)
     value = params.require(:value)
 
-    rating = Rating.find_by(type: type, entity_type: entity_type, entity_id: entity_id)
+    rating = Rating.find_by(entity_type: entity_type, entity_id: entity_id, type: type)
     if rating
       rating.update!(value: value)
       status = :ok
     else
-      rating = Rating.create!(type: type, entity_type: entity_type, entity_id: entity_id, value: value)
+      rating = Rating.create!(entity_type: entity_type, entity_id: entity_id, type: type, value: value)
       status = :created
     end
 
-    head status
+    render json: { rating: rating }, status: status
   end
 
-  # DELETE /rating
+  # DELETE /ratings
   def destroy
-    type = params.require(:type)
     entity_type = params.require(:entity_type)
     entity_id = params.require(:entity_id)
+    type = params.require(:type)
 
-    Rating.destroy_by(type: type, entity_type: entity_type, entity_id: entity_id)
+    Rating.destroy_by(entity_type: entity_type, entity_id: entity_id, type: type)
 
-    head :no_content
+    render json: { message: "Rating deleted" }
   end
 end

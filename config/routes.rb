@@ -8,9 +8,9 @@ Rails.application.routes.draw do
     get "users/me", to: "users#show"
     patch "users/me", to: "users#update"
 
-    get "/rating", to: "ratings#show"
-    put "/rating", to: "ratings#upsert"
-    delete "/rating", to: "ratings#destroy"
+    get "ratings", to: "ratings#show"
+    put "ratings", to: "ratings#upsert"
+    delete "ratings", to: "ratings#destroy"
 
     resources :tests
   end
