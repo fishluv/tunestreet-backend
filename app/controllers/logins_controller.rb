@@ -15,7 +15,13 @@ class LoginsController < ApplicationController
     # TODO: Avoid logging email because it contains login url.
     LoginMailer.with(user: user, url: url).login_email.deliver_later
 
-    render json: { message: "Login url sent to #{email}" }
+    render json: {
+      message: "Login url sent to #{email}",
+      user: {
+        email: user.email,
+        username: user.username,
+      }
+    }
   end
 
   # TODO: Make this a purely backend endpoint instead of redirecting to the frontend.
