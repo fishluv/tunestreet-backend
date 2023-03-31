@@ -1,7 +1,7 @@
 class LoginMailer < ApplicationMailer
   def login_email
     @user = params[:user] or raise ArgumentError, "missing `user`"
-    @url = params[:url] or raise ArgumentError, "missing `url`"
+    @login_url = params[:login_url] or raise ArgumentError, "missing `login_url`"
 
     to =
       if @user.username.present?

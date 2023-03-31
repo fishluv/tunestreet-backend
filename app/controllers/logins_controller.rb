@@ -10,10 +10,10 @@ class LoginsController < ApplicationController
     )
 
     # get "login/sessions", to: "logins#create_session"
-    url = login_sessions_url(token: user.login_token)
+    login_url = login_sessions_url(token: user.login_token)
 
     # TODO: Avoid logging email because it contains login url.
-    LoginMailer.with(user: user, url: url).login_email.deliver_later
+    LoginMailer.with(user: user, login_url: login_url).login_email.deliver_later
 
     render json: {
       message: "Login url sent to #{email}",
