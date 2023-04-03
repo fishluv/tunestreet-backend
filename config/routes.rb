@@ -12,6 +12,8 @@ Rails.application.routes.draw do
     put "ratings/mine", to: "my_ratings#upsert"
     delete "ratings/mine", to: "my_ratings#destroy"
 
+    get "ratings/site", to: "site_ratings#show"
+
     resources :tests
   end
 end
