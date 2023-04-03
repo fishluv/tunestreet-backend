@@ -15,6 +15,8 @@
 #  index_users_on_email  (email) UNIQUE
 #
 class User < ApplicationRecord
+  has_many :ratings
+
   authenticates_with_sorcery!
 
   validates :username, length: { in: 1..24 }

@@ -29,4 +29,8 @@ class Rating < ApplicationRecord
 
   validates :value, comparison: { greater_than_or_equal_to: BigDecimal("0.5") }
   validates :value, comparison: { less_than_or_equal_to: 5 }
+
+  def val
+    format("%0.2f", value)
+  end
 end
