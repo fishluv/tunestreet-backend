@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: ratings
+#
+#  id          :bigint           not null, primary key
+#  type        :integer          not null
+#  entity_type :integer          not null
+#  entity_id   :string           not null
+#  value       :decimal(3, 2)    not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
 class Rating < ApplicationRecord
   enum :type, [:quality, :difficulty]
   enum :entity_type, [:chart, :song, :version]
