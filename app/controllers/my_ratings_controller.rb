@@ -1,5 +1,5 @@
 # CRUD operations for a single rating belonging to the current user.
-class RatingsController < ApplicationController
+class MyRatingsController < ApplicationController
   before_action :require_login
 
   # GET /ratings
