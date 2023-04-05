@@ -1,19 +1,26 @@
 class LoginsController < ApplicationController
   # Send login email for new or existing user.
   def request_login
-    email = params.require(:user)[:email]
+    email = params.require(:user)[:email].strip
 
-    user = User.find_or_create_by!(email: email)
-    user.update!(
-      login_token: SecureRandom.urlsafe_base64,
-      login_token_valid_until: Time.now + 60.minutes,
-    )
+    # If email fails, roll back user creation and return an error.
 
-    # get "login/sessions", to: "logins#create_session"
-    login_url = login_sessions_url(token: user.login_token)
+    User.transaction do
+      user = User.find_or_create_by!(email: email)
+      user.update!(
+        login_token: SecureRandom.urlsafe_base64,
+        login_token_valid_until: Time.now + 60.minutes,
+      )
 
-    # TODO: Avoid logging email because it contains login url.
-    LoginMailer.with(user: user, login_url: login_url).login_email.deliver_later
+      # get "login/sessions", to: "logins#create_session"
+      login_url = login_sessions_url(token: user.login_token)
+
+      # TODO: Avoid logging email because it contains login url.
+      LoginMailer.with(user: user, login_url: login_url).login_email.deliver_now
+    end
+
+    # Have to do this because the `user` var above is only accessible within the block.
+    user = User.find_by(email: email)
 
     render json: {
       message: "Login url sent to #{email}",
