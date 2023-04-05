@@ -47,7 +47,7 @@ class LoginsController < ApplicationController
       # From Sorcery. Logs user in without credentials.
       auto_login(user)
 
-      redirect_to Rails.configuration.tunestreet_frontend_url, allow_other_host: true
+      redirect_to URI.join(Rails.configuration.tunestreet_frontend_url, "login/success").to_s, allow_other_host: true
     else
       redirect_to URI.join(Rails.configuration.tunestreet_frontend_url, "login_failed").to_s
     end
