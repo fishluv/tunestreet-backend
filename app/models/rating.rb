@@ -27,8 +27,11 @@ class Rating < ApplicationRecord
 
   belongs_to :user
 
-  validates :value, comparison: { greater_than_or_equal_to: BigDecimal("0.5") }
-  validates :value, comparison: { less_than_or_equal_to: 5 }
+  validates :value, comparison: { greater_than_or_equal_to: BigDecimal("0.5") }, if: -> { type == :quality }
+  validates :value, comparison: { less_than_or_equal_to: BigDecimal("5.0") }, if: -> { type == :quality }
+
+  validates :value, comparison: { greater_than_or_equal_to: BigDecimal("-1.25") }, if: -> { type == :difficulty }
+  validates :value, comparison: { less_than_or_equal_to: BigDecimal("1.25") }, if: -> { type == :difficulty }
 
   def val
     format("%0.2f", value)
