@@ -10,19 +10,23 @@ class SiteRatingsController < ApplicationController
         .where(entity_type: entity_type, entity_id: entity_id, type: :quality)
         .pluck(:value)
     quality_rating = rating_str(quality_values)
+    quality_rating_count = quality_values.length
 
     difficulty_values =
       Rating
         .where(entity_type: entity_type, entity_id: entity_id, type: :difficulty)
         .pluck(:value)
     difficulty_rating = rating_str(difficulty_values)
+    difficulty_rating_count = difficulty_values.length
 
     render json: {
       site_entity_ratings: {
         entity_type: entity_type,
         entity_id: entity_id,
         quality_rating: quality_rating,
+        quality_rating_count: quality_rating_count,
         difficulty_rating: difficulty_rating,
+        difficulty_rating_count: difficulty_rating_count,
       },
     }
   end
