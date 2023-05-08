@@ -9,12 +9,12 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     # Local frontend
     origins "localhost:3001"
-    resource "*", headers: :any, methods: [:get, :post, :put, :delete], credentials: true
+    resource "*", headers: :any, methods: [:get, :post, :put, :patch, :delete], credentials: true
   end
 
   allow do
     # Production frontend
     origins "tunestreet.org"
-    resource "*", headers: :any, methods: [:get, :post, :put, :delete], credentials: true
+    resource "*", headers: :any, methods: [:get, :post, :put, :patch, :delete], credentials: true
   end
 end
